@@ -14,9 +14,9 @@ namespace Linq_Method_Syntax_Core
         public void run()
         {
 
-            var result = Numbers.Where(FindNumbersLessThan100);
-            var people = Team.People.All(FindFirstNamesStartsWithJ);
-            var first = Numbers.FirstOrDefault(GreaterThan50);
+            var result = Numbers.Where(num => num < 100);
+            var people = Team.People.All( p => p.FirstName.StartsWith("J"));
+            var first = Numbers.FirstOrDefault(num => num > 50);
 
         }
 
@@ -24,6 +24,8 @@ namespace Linq_Method_Syntax_Core
         {
             return num < 100;
         }
+
+        
 
         public bool FindFirstNamesStartsWithJ(Person p)
         {
@@ -45,20 +47,20 @@ namespace Linq_Method_Syntax_Core
         public IEnumerable<string> FindPattern(IEnumerable<string> inputStrings, string pattern)
         {
             //Fix the lambda function to check that input has pattern within it.
-            return inputStrings.Where(input => input == "Foobar");
+            return inputStrings.Where(input => input.Contains(pattern));
         }
 
 
         // return inputStrings in alphabetical order
         public IEnumerable<string> OrderAlphabetically(IEnumerable<string> inputStrings)
         {
-            return inputStrings;
+            return inputStrings.OrderBy(input => input);
         }
 
         // return all people in a team who are older than age, sorted by Age descending
         public IEnumerable<Person> FindAllGreaterThanAge(Team team, int age)
         {
-            return team.People;
+           return team.People.Where(people => people.GetAge() > age).OrderBy(people => people);
         }
 
         // return the first Person whose Lastname has num letters
